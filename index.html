@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- SEO -->
+    <title>mm0ck3r</title>
+    <meta
+      name="description"
+      content="Portfolio for hacker mm0ck3r"
+    />
+    <meta name="author" content="mm0ck3r" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    <!-- OG (Open Graph Data) -->
+    <meta property="og:title" content="김성진(mm0ck3r)의 포트폴리오" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="배포후 생성된 URL" />
+    <meta property="og:image" content="배포후에 생성된 이미지 URL" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome -->
+    <script
+      src="https://kit.fontawesome.com/9eb162ac0d.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+    <!-- Javascript -->
+    <script type="module" src="src/main.js" defer></script>
+    <script type="module" src="src/projects.js" defer></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="header__logo">
+        <img class="header__logo__img" src="images/favicon.ico" alt="logo" />
+        <h1 class="header__logo__title"><a href="#">mm0ck3r</a></h1>
+      </div>
+      <nav class="header__nav">
+        <ul class="header__menu">
+          <li><a class="header__menu__item active" href="#home">Home</a></li>
+          <li><a class="header__menu__item" href="#about">About</a></li>
+          <li><a class="header__menu__item" href="#skills">Skills</a></li>
+          <li><a class="header__menu__item" href="#work">My work</a></li>
+          <li>
+            <a class="header__menu__item" href="#testimonial">Testimonial</a>
+          </li>
+          <li><a class="header__menu__item" href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <button class="header__toggle" aria-label="navigation menu toggle">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </header>
+    <!-- Main -->
+    <main>
+      <!-- Home -->
+      <section id="home">
+        <div class="home__container">
+          <img
+            class="home__avatar"
+            src="images/profile.png"
+            alt="Ellie's profile"
+          />
+          <h2 class="home__title">
+            안녕하세요 <br />
+            <strong class="home__title--strong">해킹을 전공하는 대학생</strong>, 김성진 입니다.
+          </h2>
+          <p class="home__description">
+            Seoul, Korea.
+          </p>
+          <a class="home__contact" href="#contact">Contact Me</a>
+        </div>
+      </section>
+      <!-- About -->
+      <section id="about" class="section max-container">
+        <h2 class="title">About me</h2>
+        <p class="description">지금 당장 많은 돈을 벌고싶은 대학생..</p>
+        <ul class="majors">
+          <li class="major">
+            <i class="fa-solid fa-shield-halved major__icon"></i>
+            <p class="major__title">Hacking</p>
+            <p>Web Hacking, Cryptography, Reverse Engineering, Pwnable, Forensic, AI Security, etc.</p>
+          </li>
+          <li class="major">
+            <i class="fa-solid fa-money-bill major__icon"></i>
+            <p class="major__title">part-time job</p>
+            <p>tutor, outsourcing, undergraduate research student(not currently), etc.</p>
+          </li>
+        </ul>
+        <ul class="jobs">
+            <p class="description">교육</p>
+          <li class="job">
+            <img src="images/logo/education.png" width="65"/>
+            <div>
+              <p class="job__name">교육부 정보보호영재교육원, 서울여자대학교</p>
+              <p class="job__period">2015 - 2019</p>
+            </div>
+          </li>
+          <li class="job">
+            <img src="images/logo/hyu.png" width="65"/>
+            <div>
+              <p class="job__name">한양대학교 컴퓨터소프트웨어학부 (자퇴)</p>
+              <p class="job__period">2021.03 - 2021.12</p>
+            </div>
+          </li>
+          <li class="job">
+            <img src="images/logo/ku.jpeg" width="65"/>
+            <div>
+              <p class="job__name">고려대학교 사이버국방학과 (재학)</p>
+              <p class="job__period">2022.03 -</p>
+            </div>
+          </li>
+        </ul>
+        <br>
+        <ul class="jobs">
+          <p class="description">이력</p>
+          <li class="job">
+            <img src="images/logo/hyu.png" width="65"/>
+            <div>
+              <p class="job__name">MQTT 원격제어 데이터 전송 프로토콜 취약점 분석연구 (국가보안기술연구소)</p>
+              <p class="job__period">2021.04 - 2021.11</p>
+            </div>
+          </li>
+          <li class="job">
+            <img src="images/logo/ku.jpeg" width="65"/>
+            <div>
+              <p class="job__name">고려대학교 사이버국방학과 학생회장</p>
+              <p class="job__period">2022.11 - 2023.11</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+      <!-- Skills -->
+      <section id="skills" class="section">
+        <div class="max-container">
+          <h2 class="title">요즘 하는 일</h2>
+          <p>
+            아직 학생회장 일이 끝나지 않아 학생회에 많은 시간을 쓰는 중입니다. <br>
+            25학점 수강중입니다.
+          </p>
+          <div class="skills">
+            <section class="skills__coding">
+              <h3 class="skills__title">Spending time</h3>
+              <ul>
+                <li class="bar">
+                  <div class="bar__metadata">
+                    <span>학생회</span><span>30%</span>
+                  </div>
+                  <div class="bar__bg">
+                    <div class="bar__value" style="width: 30%"></div>
+                  </div>
+                </li>
+                <li class="bar">
+                  <div class="bar__metadata">
+                    <span>학교 수업듣기</span><span>40%</span>
+                  </div>
+                  <div class="bar__bg">
+                    <div class="bar__value" style="width: 40%"></div>
+                  </div>
+                </li>
+                <li class="bar">
+                  <div class="bar__metadata">
+                    <span>해킹 공부하기</span><span>50%</span>
+                  </div>
+                  <div class="bar__bg">
+                    <div class="bar__value" style="width: 50%"></div>
+                  </div>
+                </li>
+                <li class="bar">
+                  <div class="bar__metadata">
+                    <span>술자리</span><span>25%</span>
+                  </div>
+                  <div class="bar__bg">
+                    <div class="bar__value" style="width: 20%"></div>
+                  </div>
+                </li>
+                <li class="bar">
+                  <div class="bar__metadata">
+                    <span>위스키</span><span>10%</span>
+                  </div>
+                  <div class="bar__bg">
+                    <div class="bar__value" style="width: 10%"></div>
+                  </div>
+                </li>
+                <li class="bar">
+                  <div class="bar__metadata">
+                    <span>유튜브 인스타 등 보기</span><span>15%</span>
+                  </div>
+                  <div class="bar__bg">
+                    <div class="bar__value" style="width: 15%"></div>
+                  </div>
+                </li>
+              </ul>
+            </section>
+            <section class="skills__tools">
+              <h3 class="skills__title">주력 언어</h3>
+              <ul>
+                <li>C</li>
+                <li>Python</li>
+                <li>Assembly</li>
+                <li>C++</li>
+                <li>SQL Query</li>
+              </ul>
+            </section>
+            <section class="skills__etc">
+              <h3 class="skills__title">Etc</h3>
+              <ul>
+                <li>Git</li>
+                <li>Scrum Master</li>
+                <li>Math</li>
+              </ul>
+            </section>
+          </div>
+        </div>
+      </section>
+      <!-- Work -->
+      <section id="work" class="section">
+        <div class="max-container">
+          <h2 class="title">My work</h2>
+          <p class="description">Website</p>
+            <ul class="categories">
+
+                <li class="project"><a href="https://l0rq2.tistory.com" target="_blank">
+                    <img src="images/logo/tistory.jpg" alt="tistory" class="project__img">
+                    <div class="project__metadata">
+                        <h3 class="project__title">Tistory</h3>
+                        <p>옛날에 작성하던 티스토리</p>
+                    </div>
+                    </a>
+                </li>
+                <li class="project"><a href="https://velog.io/@mm0ck3r" target="_blank">
+                    <img src="images/logo/velog.jpg" alt="velog" class="project__img">
+                    <div class="project__metadata">
+                        <h3 class="project__title">Tistory</h3>
+                        <p>옛날에 작성하던 velog</p>
+                    </div>
+                </a>
+                </li>
+                <li class="project"><a href="https://github.com/mm0ck3r" target="_blank">
+                    <img src="images/logo/github.png" alt="github" class="project__img">
+                    <div class="project__metadata">
+                        <h3 class="project__title">Git</h3>
+                        <p>가끔 올리는 Git</p>
+                    </a>
+                    </div>
+                </li>
+                <li class="project"><a href="https://dreamhack.io/users/4966/" target="_blank">
+                    <img src="images/logo/dreamhack.png" alt="dreamhack" class="project__img">
+                    <div class="project__metadata">
+                        <h3 class="project__title">Dreamhack</h3>
+                        <p>가끔 푸는 dreamhack</p>
+                    </a>
+                    </div>
+                </li>
+            </ul>
+            
+        </div>
+      </section>
+      <!-- Testimonials -->
+      <section id="testimonial" class="section max-container">
+        <h2 class="title">Testimonial</h2>
+        <p class="description">블록체인 밸리에 있는 학교 동기들이 어떻게 저를 평가할까요?</p>
+        <ul class="testimonials">
+          <li class="testimonial">
+            <img
+              src="images/hyo.png"
+              alt="hyo"
+              class="testimonial__img"
+            />
+            <div class="testimonial__bubble">
+              <p>
+                그의 찬란한 이력, 그리고 해킹 굇수들이 득실대는 사이버국방학과의 회장이라는 타이틀만 봐도, 그가 얼마나 대단한 사람인지 짐작해볼 수 있다. 앞으로의 행보가 기되대는 인물이다.
+              </p>
+              <p>
+                <a href="github.com/Null0RM" class="testimonial__bubble__name">Hyoyoung Jung</a>
+                /블록체인 밸리 개발팀 4기, 고려대학교 스마트보안학과
+              </p>
+            </div>
+          </li>
+          <li class="testimonial">
+            <img
+              src="images/testimonials/people3.webp"
+              alt="people3"
+              class="testimonial__img"
+            />
+            <div class="testimonial__bubble">
+              <p>
+                고려대학교 사이버국방학과의 학생회장, 술을 굉장히 좋아하는 낭만주의자, 보안에 관심이 많으며 블록체인 밸리의 떠오로는 유망주
+              </p>
+              <p>
+                <a href="#" class="testimonial__bubble__name">Jin Heo</a>
+                /블록체인 밸리 개발팀 3기, 고려대학교 사이버국방학과
+              </p>
+            </div>
+          </li>
+        </ul>
+      </section>
+      <!-- Arrow up -->
+      <aside>
+        <a class="arrow-up" href="#home" title="back to top">
+          <i class="fa-solid fa-arrow-up"></i>
+        </a>
+      </aside>
+    </main>
+    <!-- Footer -->
+    <footer id="contact" class="section">
+      <div class="max-container">
+        <h2 class="title">편하게 연락주세요</h2>
+        <p class="description">mm0ck3r@gmail.com</p>
+        <p class="description">mm0ck3r@korea.ac.kr</p>
+        <ul class="contact__links">
+          <li>
+            <a
+              class="contact__link"
+              href="https://instagram.com/mm0ck3r"
+              target="_blank"
+              title="my insta link"
+            >
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+          </li>
+        </ul>
+        <p>ⓒDream Coding Ellie - All rights reserved</p>
+      </div>
+    </footer>
+  </body>
+</html>
