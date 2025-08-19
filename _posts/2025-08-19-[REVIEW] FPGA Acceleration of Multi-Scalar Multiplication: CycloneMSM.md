@@ -137,3 +137,50 @@ $$ R = \sum_{i=0}^{N-1} n_{i} P_{i} = \sum_{i=0}^{N-1} \left( \sum_{j=0}^{W-1} n
 $$ \bar{R} = \sum_{i=0}^{N-1} n_{i}^{(j)} P_{i} $$
 
 즉, 매우 큰 스칼라와 매우 큰 점들을 수없이 곱하고 더하는 것은 곱셈 연산의 측면에서 매우 비효율적이기에, Scalar를 먼저 쪼개는 방법이라고 이해하면 된다. 이 과정만 거친다고 해서 효율적이게 변하지는 않고, 아래의 과정이 필요하다.
+
+먼저 각각의 scalar 값들을 bucket으로 만든다.
+
+$$ \textit{bucket } B_{k}, \quad B_{k} = \{ P_{i} \mid \bar{n}_{i} = k \} $$
+
+예를 들어, $$ n_3P_3 $$에서, reduced scalr가 아래와 같다 하자.
+
+$$ n_3^0 = 13 $$
+
+$$ n_3^1 = 5 $$
+
+$$ n_3^2 = 0 $$
+
+$$ n_3^3 = 21 $$
+
+그렇다면 $$ P_3 $$는 $$ \mathcal{B}_{13}, \; \mathcal{B}_{5}, \; \mathcal{B}_{21} $$에 들어가지게 된다. 만약 모든 점들에 대해 Bucket에 넣는 과정이 끝나게 된다면, 각각의 Bucket안에 있는 값들을 더하기 위해 $$ S_k $$를 정의할 수 있다.
+
+$$ S_{k} = \sum_{P \in \mathcal{B}_{k}} P $$
+
+그렇다면 MSM 문제는 아래와 같이 재정의 가능하며, Bucket 0은 즉 reduced scalar가 0인 값이기에 굳이 계산에 넣지 않아도 된다.
+
+$$ \sum_{i=0}^{N-1} n_{i} P_{i} 
+= \sum_{k=0}^{2^{c}-1} k S_{k} 
+= \sum_{k=1}^{2^{c}-1} k S_{k} $$
+
+또한, 마지막 식의 경우 아래와 같이 누적합을 통해 더욱 가속시킬 수 있다.
+
+$$ \sum_{k=1}^{T} k S_{k} = S_{T} + (S_{T} + S_{T-1}) + \cdots + (S_{T} + S_{T-1} + \cdots + S_{1}). $$
+
+<img src="../Images/CycloneMSM_2_reducedscalar.png" width = "80%" alt = "fig about MSM Overhead"/>
+
+Scalar $$ n_i $$를 Reduced Scalar로 쪼개는 과정을 만들어보았다. 임의의 비트만큼을 잡아서 쪼갤 수 있으며, 그때 만들어진 Reduced Scalar를 Window라 한다.
+
+$$ R^{(j)} 
+= \sum_{i=0}^{N-1} n_{i}^{(j)} P_{i} 
+= \sum_{k=0}^{2^{c}-1} k S_{k},
+\quad \text{where } S_{k} = \sum_{P \in \mathcal{B}_{k}} P $$
+
+$$ R = \sum_{j=0}^{B-1} 2^{jc} R^{(j)} $$
+
+위의 수식처럼 임의의 Reduced Scalar $$ R^{(j)} $$를 구했다 한들, 원래 있던 비트 위치만큼 왼쪽으로 shift 해주어야 한다.
+
+## 3. CycloneMSM
+
+<img src="../Images/CycloneMSM_3_Algorithm1.png" width = "60%" alt = "fig about MSM Overhead"/>
+
+논문에 나와있는 Pseudo Code를 통해 Algorithm을 간접적으로 이해해보자.
