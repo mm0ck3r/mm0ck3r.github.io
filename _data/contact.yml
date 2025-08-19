@@ -2,17 +2,21 @@
 
 - type: github
   icon: "fab fa-github"
+  url: "https://github.com/mm0ck3r"
 
 - type: twitter
   icon: "fa-brands fa-x-twitter"
+  url: "https://twitter.com/mm0ck3r"
 
 - type: email
   icon: "fas fa-envelope"
   noblank: true # open link in current tab
+  url: "mailto:mm0ck3r@gmail.com"
 
 - type: rss
   icon: "fas fa-rss"
   noblank: true
+  url: "https://github.com/mm0ck3r.atom"
 # Uncomment and complete the url below to enable more contact options
 #
 # - type: mastodon
