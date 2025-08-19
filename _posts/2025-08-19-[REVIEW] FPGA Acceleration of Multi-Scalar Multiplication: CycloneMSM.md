@@ -87,6 +87,6 @@ img {
 
 위 문제를 MSM (Multi-Scalar Multiplication)이라 한다. $$n$$의 경우 255 bit 정도 되며, $$P$$는 타원쌍곡선 위의 점이다. 또한 반복되는 점들의 개수($$ N $$)는 $$ 2^{20} $$ 정도이다. 이러한 많은 큰 값들을 단순히 컴퓨터의 곱셈 연산 처리 방식을 통해 진행한다고 하면, Overhead가 상당해진다.
 
-<img src="../Images/CycloneMSM_1_overhead.png" width = "80%" />
+<img src="../Images/CycloneMSM_1_overhead.png" width = "80%" alt = "fig about MSM Overhead"/>
 
 위의 표를 확인해보면 여러 Scheme(Protocol)에 대해 Prover의 시간에서 MSM이 차지하는 비율이 70-90%를 차지함을 알 수 있다.
