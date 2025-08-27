@@ -186,3 +186,4 @@ $$ R = \sum_{j=0}^{B-1} 2^{jc} R^{(j)} $$
 논문에 나와있는 Pseudo Code이다. Bucket Method와 관련된 코드이며, 어차피 좀 더 구체적인 Pseudo Code가 아래에 나오기에, 그때 확인하겠다.
 
 ### 3.1 Architecture
+
