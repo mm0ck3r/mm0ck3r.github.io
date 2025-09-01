@@ -5,7 +5,7 @@ writer: Seongjin Kim
 categories: [Paper Review, ZKP Hardware Acceleration]
 tags: [Zero-Knowledge Proof, Hardware, Acceleration, FPGA]
 image:
-  path: ../Images/CycloneMSM_Title.png
+  path: ../Images/CycloneMSM/Title.png
   alt: Paper Review about CycloneMSM
 
 math: true
@@ -87,7 +87,7 @@ img {
 
 위 문제를 MSM (Multi-Scalar Multiplication)이라 한다. $$n$$의 경우 255 bit 정도 되며, $$P$$는 타원쌍곡선 위의 점이다. 또한 반복되는 점들의 개수($$ N $$)는 $$ 2^{20} $$ 정도이다. 이러한 많은 큰 값들을 단순히 컴퓨터의 곱셈 연산 처리 방식을 통해 진행한다고 하면, Overhead가 상당해진다.
 
-<img src="../Images/CycloneMSM_1_overhead.png" width = "80%" alt = "fig about MSM Overhead"/>
+<img src="../Images/CycloneMSM/1_overhead.png" width = "80%" alt = "fig about MSM Overhead"/>
 
 위의 표를 확인해보면 여러 Scheme(Protocol)에 대해 Prover의 시간에서 MSM이 차지하는 비율이 70-90%를 차지함을 알 수 있다. 따라서 현재의 ZK-SNARK 과정에서 MSM Acceleration은 무조건 필요하다. 본 논문에서는 해당 가속 연구를 FPGA를 통해 진행하였다.
 
@@ -166,7 +166,7 @@ $$ \sum_{i=0}^{N-1} n_{i} P_{i}
 
 $$ \sum_{k=1}^{T} k S_{k} = S_{T} + (S_{T} + S_{T-1}) + \cdots + (S_{T} + S_{T-1} + \cdots + S_{1}). $$
 
-<img src="../Images/CycloneMSM_2_reducedscalar.png" width = "80%" alt = "fig about MSM Overhead"/>
+<img src="../Images/CycloneMSM/2_reducedscalar.png" width = "80%" alt = "fig about MSM Overhead"/>
 
 Scalar $$ n_i $$를 Reduced Scalar로 쪼개는 과정을 만들어보았다. 임의의 비트만큼을 잡아서 쪼갤 수 있으며, 그때 만들어진 Reduced Scalar를 Window라 한다.
 
@@ -181,9 +181,9 @@ $$ R = \sum_{j=0}^{B-1} 2^{jc} R^{(j)} $$
 
 ## 3. CycloneMSM
 
-<img src="../Images/CycloneMSM_3_Algorithm1.png" width = "60%" alt = "fig about MSM Overhead"/>
+<img src="../Images/CycloneMSM/3_Algorithm1.png" width = "60%" alt = "fig about MSM Overhead"/>
 
-논문에 나와있는 Pseudo Code이다. Bucket Method와 관련된 코드이며, 어차피 좀 더 구체적인 Pseudo Code가 아래에 나오기에, 그때 확인하겠다.
+논문에 나와있는 Pseudo Code이다. Bucket Method와 관련된 코드이다.
 
 ### 3.1 Architecture
 
