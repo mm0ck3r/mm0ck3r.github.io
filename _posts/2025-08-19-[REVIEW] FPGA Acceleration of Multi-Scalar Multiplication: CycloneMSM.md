@@ -82,7 +82,9 @@ img {
   </a>
 </figure> -->
 
-## 1. Introduction
+```MSM Hardware Acceleration```에 관해 기본적인 내용들을 학습하기 좋은 것 같아 ```CycloneMSM``` 논문을 리뷰해보도록 하겠다.
+
+# 1. Introduction
 <center>$$ R = n_{1}P_{1} + n_{2}P_{2} + \cdots + n_{N}P_{N} = \displaystyle\sum_{i=1}^{N} n_{i}P_{i} $$</center>
 
 위 문제를 MSM (Multi-Scalar Multiplication)이라 한다. $$n$$의 경우 255 bit 정도 되며, $$P$$는 타원쌍곡선 위의 점이다. 또한 반복되는 점들의 개수($$ N $$)는 $$ 2^{20} $$ 정도이다. 이러한 많은 큰 값들을 단순히 컴퓨터의 곱셈 연산 처리 방식을 통해 진행한다고 하면, Overhead가 상당해진다.
@@ -91,35 +93,35 @@ img {
 
 위의 표를 확인해보면 여러 Scheme(Protocol)에 대해 Prover의 시간에서 MSM이 차지하는 비율이 70-90%를 차지함을 알 수 있다. 따라서 현재의 ZK-SNARK 과정에서 MSM Acceleration은 무조건 필요하다. 본 논문에서는 해당 가속 연구를 FPGA를 통해 진행하였다.
 
-## 2. Background
-### 2.1 Elliptic Curves, Twisted Edwards
+# 2. Background
+## 2.1 Elliptic Curves, Twisted Edwards
 
 <center> $$ y^{2} = x^{3} + ax + b, \quad \text{with } a, b \in \mathbb{F}_{q} $$ </center>
-위의 Elliptic Curve 식은 **Weierstrass Equation**이다. 곡선은 non-singular하다. 즉, 연속적이며 미분가능하다. 
+위의 Elliptic Curve 식은 ```Weierstrass Equation```이다. 곡선은 non-singular하다. 즉, 연속적이며 미분가능하다. 
 
 Elliptic Curve 위의 점들을 다 모은 집합 $$ E(\mathbb{F}_{q}) $$ 중에서, 연산이 잘 정의되며 원소 개수가 소수 $$ r $$인 subgroup을 $$ \mathbb{G} $$라 함.
 
-위의 식을 $$ E $$라 할때, **Twisted Edwards Curve** $$ E^T $$는 아래와 같이 정의된다.
+위의 식을 $$ E $$라 할때, ```Twisted Edwards Curve``` $$ E^T $$는 아래와 같이 정의된다.
 
 $$ -x^{2} + y^{2} = 1 + \frac{k}{2} x^{2} y^{2}, \quad \text{with } k \in \mathbb{F}_{q}. $$
 
 모든 Twisted Edwards Curve는 Weierstrass Form으로 바꿀 수 있다. 다만, 역은 일부만 성립한다.
 
-**Weierstrass Equation**에서 사용하는 **Coordinates**는 아래와 같다.
+```Weierstrass Equation```에서 사용하는 ```Coordinates```는 아래와 같다.
 
 - Affine Coordinates: $$ (x, y) $$
 - Extended Jacobian Coordinates: $$ (X, Y, Z, W) $$
 
 Elliptic Curves에서 Affine 좌표계를 사용하여 점과 점의 덧셈 연산을 진행할 시, 역원을 구해야 한다. 따라서 그러한 과정이 필요없는 Extended Jacobian 좌표계를 사용한다고 한다. 서로 다른 좌표계의 점들을 더하는 MixedAdd를 진행한다고 하면, Affine 좌표값을 Jacobian으로 형변환 할 때 $$ Z = W = 1 $$로 두어 계산한다고 한다.
 
-**Tiwsted Edwards Equation**에서 사용하는 **Coordinates**는 아래와 같다.
+```Tiwsted Edwards Equation```에서 사용하는 ```Coordinates```는 아래와 같다.
 
 - Exted Affine Coordinates: $$ (x, y, u) $$
 - Extended Projective Coordinates: $$ (X, Y, Z, T) $$
 
 Twisted Edwards Form은 $$ k $$라는 값이 정의되어 있다. 따라서 $$ k $$를 이용해 Extended Affine에서 $$ u = kxy$$로 둔다. Extended Jacobian Coordinates와 마찬가지로, Extended Projective Coordinates 역시 역원 계산을 피하기 위한 용도이다.
 
-### 2.2 Bucket Algorithm (Pippenger Algorithm)
+## 2.2 Bucket Algorithm (Pippenger Algorithm)
 Bucket Algorithm은 Pippenger Algorithm 이라고도 불리운다. Nicholas Pippenger가 1976년 제안한 알고리즘으로, 대부분의 MSM Acceleration 연구들에서 사용하고 있는 알고리즘이다.
 
 원리는 하나다. 스칼라를 작은 비트로 쪼개는 것이다.
@@ -130,7 +132,7 @@ $$ R = \sum_{i=0}^{N-1} n_{i} P_{i} \in \mathbb{G} $$
 
 $$ \sum_{i=0}^{N-1} \bar{n}_{i} P_{i} = \bar{R} $$
 
-쪼개진 스칼라 $$ \bar{n_i} $$를 Reduced Scalar라고 부르며, 위의 식을 **Reduced MSM** 이라고 부른다.
+쪼개진 스칼라 $$ \bar{n_i} $$를 Reduced Scalar라고 부르며, 위의 식을 ```Reduced MSM``` 이라고 부른다.
 
 $$ R = \sum_{i=0}^{N-1} n_{i} P_{i} = \sum_{i=0}^{N-1} \left( \sum_{j=0}^{W-1} n_{i}^{(j)} 2^{jc} \right) P_{i}$$
 
@@ -179,11 +181,40 @@ $$ R = \sum_{j=0}^{B-1} 2^{jc} R^{(j)} $$
 
 위의 수식처럼 임의의 Reduced Scalar $$ R^{(j)} $$를 구했다 한들, 원래 있던 비트 위치만큼 왼쪽으로 shift 해주어야 한다.
 
-## 3. CycloneMSM
-
 <img src="../Images/CycloneMSM/3_Algorithm1.png" width = "60%" alt = "fig about MSM Overhead"/>
 
 논문에 나와있는 Pseudo Code이다. Bucket Method와 관련된 코드이다.
 
-### 3.1 Architecture
+하단부에서 더 자세한 Pseudo Code가 나오기에 그때 확인해보도록 하자.
 
+# 3. CycloneMSM
+
+## 3.1 Architecture
+
+$$ S_{k} = \sum_{P \in \mathcal{B}_{k}} P $$
+
+위의 식을 보자 여기서 점들이 들어가는 순서에 대해 정의하고 있지 않다.
+
+실제로 ```arkworks```, ```gnark-crypto``` 같은 경우 입력 순서대로 처리하고 있으며, 이는 실제로 성능에 영향을 줄 수 있다. 즉, 점들을 처리하는 순서에 대해서도 생각을 해야한다.
+
+<img src="../Images/CycloneMSM/4_Architecture.png" width = "80%" alt = "fig about MSM Overhead"/>
+
+위의 사진에서 ```MSM Controller```, ```Curve Adder(s)```, ```Scheduler```에 집중해보자.
+
+- Curve Adder(s): Curve Adder는 한 개 또는 여러개일 수 있다. FPGA에서는 1개이지만, Pipeline으로 처리하기에 사실상 여러개 있다고 가정할 수도 있다. 주로 점과 점을 더하는 ```Add``` 연산이나 서로 다른 좌표계의 점들을 더하는 ```MixedAdd``` 연산을 담당한다.
+- MSM Controller: System 초기화, 점 및 스칼라에 대한 pre-processing, pre-computation을 담당하는 ```MSM Init```과정과, 실제로 진행되는 MSM을 Controll하는 ```MSM```으로 나뉜다.
+- Scheduler: 앞서, 위에서 버킷에 들어가 처리되는 점들의 순서가 중요하다 하였다. 이에 대해 성능을 극대화 시키기 위해 연산의 순서를 조절한다.
+
+## 3.2 Scheduler for UR Scalars
+
+앞서, 하드웨어 상황에서 실제로 Curve Adder는 한 개 있지만, Pipeline 병렬화를 통해 CurveAdder가 실제로 여러개 있는 효과를 낼 수 있다고 하였다. 또는 실제로 소프트웨어에서는 여러개의 CurveAdder가 구현되기도 한다.
+
+먼저, $$ t = t_0 $$ 인 상황을 생각해보자.
+
+<img src="../Images/CycloneMSM/5_URScalars1.png" width = "80%" alt = "fig about MSM Overhead"/>
+
+위의 사진처럼, $$ CureveAdder_0 $$는 $$ bucket 0 $$에서 $$ S_0 = S_0 + P_i $$ 연산을 처리한다. $$ CurveAdder_1 $$은 $$ S_3 = S_3 + P_j $$ 연산을 진행한다. 서로 같은시간이라 하더라도 독립적인 bucket을 보는 것이기에 ```race condition``` 같은 상황이 발생하지 않는다. 즉 괜찮은 상황이다.
+
+<img src="../Images/CycloneMSM/6_URScalars2.png" width = "80%" alt = "fig about MSM Overhead"/>
+
+이번에는 아래의 상황을 보자. 
