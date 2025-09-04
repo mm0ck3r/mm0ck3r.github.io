@@ -217,4 +217,51 @@ $$ S_{k} = \sum_{P \in \mathcal{B}_{k}} P $$
 
 <img src="../Images/CycloneMSM/6_URScalars2.png" width = "80%" alt = "fig about MSM Overhead"/>
 
-이번에는 아래의 상황을 보자. 
+이번에는 위의 상황을 보자. $$ CurveAdder_0 $$와 $$ CurveAdder_1 $$이 같은 bucket을 연산하지만, 시간 $$ t $$가 각각 $$ t_0, t_{T+a} $$이다. (여기서 $$ T+a $$는 점 $$ P_i $$ 연산이 충분히 끝나는 시간을 의미한다.) 따라서 ```race condition```이 발생하지 않는다.
+
+<img src="../Images/CycloneMSM/7_URScalars3.png" width = "80%" alt = "fig about MSM Overhead"/>
+
+위의 상황은 $$ t = t_0 $$로, 서로 같은 시간에서 서로 같은 bucket을 연산하고자 하는 상황이다. **당연히 ```race condition```이 발생하게 된다.**
+
+그렇다면 위의 문제는 어떻개 해결해야 할까? 본 논문에서는 Scheduler를 iterator로 modeling하는 방식을 제안한다.
+
+먼저 보다 자세히 문제를 분석해보자.
+
+discrete time $$ t $$에 대해, $$ t = 0, 1, 2 ... $$일때, reduced scalar $$ k^{(t)} $$와, Point $$ P^{(t)} $$를 return하는 테이블을 만들어야 한다.
+
+|time $ t $|Point $$ P^{(t)} $$|Bucket Index $ k^{(t)} $|
+|:---|:---|:---|
+| 0 | $$P_{0}$$ | 3 |
+| 1 | $$P_{1}$$ | 5 |
+| 2 | $$P_{2}$$ | 1 |
+| 3 | $$P_{3}$$ | 4 |
+| 4 | $$P_{4}$$ | 2 |
+| 5 | $$P_{5}$$ | 7 |
+| $$ \cdots $$   | $$ \cdots $$ | $$\cdots$$ |
+
+| *real time* | *CurveAdder*$_0$ | *CurveAdder*$_1$ | *CurveAdder*$_2$ | *CurveAdder*$_3$ |
+|-------------|------------------|------------------|------------------|------------------|
+| 0 | $$3, P_{0}$$ | $$5, P_{1}$$ | $$1, P_{2}$$ | $$4, P_{3}$$ |
+| 1 | $$2, P_{4}$$ | $$7, P_{5}$$ | $$ \cdots $$ | $$ \cdots $$ |
+
+위와 같은 table을 생각해보자.
+
+$$ S_{k}^{(t)} \;\leftarrow\; S_{k}^{(t)} + P^{(t)} $$을 계산해야 하는데, 아래의 조건을 만족해야 한다.
+
+$$ k^{(t_{1})} \neq k^{(t_{2})} \quad \text{if } |t_{1} - t_{2}| \leq T $$
+
+위의 조건이 상당히 중요하다. 만약 충돌되는 아래의 경우를 생각해보자.
+
+| $$t$$ | $$P^{(t)}$$ | $$k^{(t)}$$ |
+|-------|-------------|-------------|
+| 0 | $$P_{0}$$ | 3 |
+| 1 | $$P_{1}$$ | 5 |
+| 2 | $$P_{2}$$ | 1 |
+| 3 | $$P_{3}$$ | $$\textcolor{red}{4}$$ |
+| 4 | $$P_{4}$$ | $$\textcolor{red}{4}$$ |
+| 5 | $$P_{5}$$ | 7 |
+| $$\cdots$$ | $$\cdots$$ | $$\cdots$$ |
+
+bucket 4에서 ```race condition```이 발생한다.
+
+위의 문제를 해결하기 위해 
