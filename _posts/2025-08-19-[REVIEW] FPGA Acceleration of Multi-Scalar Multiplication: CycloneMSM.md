@@ -274,3 +274,9 @@ bucket 4에서 ```race condition```이 발생한다.
 시간 간격이 1 Cycle이 걸리는 시간인 $$ T $$보다 작기에 충돌이 발생한다. 따라서 충돌된 점들을 현재 시각인 $$ t $$에 대하여, $$ t + T + 1 $$ 시각에 다시 처리해주어야 한다. 지연된 점들을 처리하는 Queue의 크기가 작으며, $$ N = 2^{26} $$일때, Queue의 최대길이가 약 10으로, Delayed 방식보다 저장 공간이 작다.
 
 ## 3.3 Applications: FPGA, Batch Affine
+**FPGA(Hardware)**  
+하나의 프로세서에 입력으로 $$ S_k, P $$가 시간 $$t$$에 들어오면, $$ S_k + P $$가 $$ t + T $$에 출력된다.  
+그렇다면 클럭 사이클마다 한 번씩 점 덧셈을 파이프라인에 넣을 수 있다.
+
+**Batch Affine(Software)**  
+Affine 좌표계의 점 덧셈은 2-3번의 곱셈과 1번의 덧셈이 필요하다. 이는 비효율적이다. 다만 Batch Inversion과 Scheduling을 진행하고 $$ T $$개의 점들에 대해 덧셈을 진행한다고 
