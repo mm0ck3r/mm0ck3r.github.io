@@ -292,12 +292,20 @@ Affine 좌표계의 점 덧셈은 2-3번의 곱셈과 1번의 덧셈이 필요�
 
 ## 4.1. Field Arithmetic
 
-<img src="../Images/CycloneMSM/8_FieldArithmetic.png" width = "80%" alt = "fig about Field Arithmetic"/>
+<img src="../Images/CycloneMSM/8_FieldArithmetic.png" width = "75%" alt = "fig about Field Arithmetic"/>
 $$ \mathbb{F}_q $$ 위에서 377 bit 정수 연산은 ```Montgomery Representation```을 이용해 구현하였다. 여기서 $$ R = 2^{384} $$이다. ```Extend-Jacobian```, ```Extended-Projective``` 처럼 inverse를 구할 필요 없는 좌표계를 이용하였다.
 곱셈은 ```Montgomery```로, 초반과 후반 연산은 ```Karatsuba```로, 중간 부분은 상수와의 곱만 필요하기에, ```NAF(Non-Adjacent Form)``` 기반 커스텀 곱셈기를 사용하여 최적화함.
 
 ## 4.4. MSM Acceleration
 
-<img src="../Images/CycloneMSM/9_Algorithm3.png" width = "80%" alt = "fig about Field Arithmetic"/>
+<img src="../Images/CycloneMSM/9_Algorithm3.png" width = "75%" alt = "fig about Field Arithmetic"/>
 
-<img src="../Images/CycloneMSM/10_FPGAimplementation.png" width = "80%" alt = "fig about Field Arithmetic"/>
+<img src="../Images/CycloneMSM/10_FPGAimplementation.png" width = "70%" alt = "fig about Field Arithmetic"/>
+
+먼저, (Weierstrass, Affine) 점들을 (Edwards, Affine)으로 변환시킨다. 이때 변환 과정은 ```batch inversion```을 이용하여 가속화한다. 이후 FPGA를 초기화하여 전송하고, FPGA의 DDR 메모리에 저장된다. 
+이때, FPGA 클럭 주파수는 ```250 MHz```인데, 클럭 하나는 4ns로, 클럭 한 번 마다 MixedAdder 연산이 가능하다. 다만, CPU-FPGA 사이의 PCIE 데이터 최대 전송량이 1클럭당 64비트이다. 256비트 스칼라를 전송하기에는 옳지 않아, 앞서 설명한 ```reduced-scalar```를 사용한다.
+256 bit scalar는 $$ 256 / c $$로 처리하는데 $$ c $$ 값으로 16을 사용한다. 
+$$ c $$가 작을수록, bucket accumulation이 늘어나고, bucket 수가 적어진다. 
+$$ c $$가 클수록, bucket accumulation이 줄어들고, bucket 및 메모리가 커진다.
+
+논문에선, $$ c = 17 $$을 실험적으로 고려하였지만, 속도 향상은 7%임에 비해, bucket 수가 2배라 $$ c = 16 $$을 채택하였다.
