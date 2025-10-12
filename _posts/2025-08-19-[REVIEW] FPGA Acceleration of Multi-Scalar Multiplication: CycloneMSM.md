@@ -313,3 +313,6 @@ $$ \mathbb{F}_q $$ 위에서 377 bit 정수 연산은 ```Montgomery Representati
 - $$ c $$가 클수록, bucket accumulation이 줄어들고, bucket 및 메모리가 커진다.
 
 논문에선, $$ c = 17 $$을 실험적으로 고려하였지만, 속도 향상은 7%임에 비해, bucket 수가 2배라 $$ c = 16 $$을 채택하였다.
+
+Reduced Scalar를 NAF로 바꾸어야 한다. 이는 일반 이진수랑은 다르다. 예로, $$ 15_2 = [0, 1, 1, 1, 1] $$ 이지만, $$ NAF(15) = [-1, 0, 0, 0, 1] $$ 이다. 따라서, ```Carry Propagation```이 발생하게 된다. 
+바로 $$ c = 16 $$으로 계산하면, 많은 propagation이 발생하므로 64bit로 먼저 propagation을 전처리 하고 진행한다.
