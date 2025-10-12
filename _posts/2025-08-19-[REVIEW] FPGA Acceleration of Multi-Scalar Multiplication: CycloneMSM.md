@@ -301,7 +301,7 @@ $$ \mathbb{F}_q $$ 위에서 377 bit 정수 연산은 ```Montgomery Representati
 
 <img src="../Images/CycloneMSM/9_Algorithm3.png" width = "75%" alt = "fig about Field Arithmetic"/>
 
-<img src="../Images/CycloneMSM/10_FPGAimplementation.png" width = "70%" alt = "fig about Field Arithmetic"/>
+<img src="../Images/CycloneMSM/10_FPGAimplementation.png" width = "60%" alt = "fig about Field Arithmetic"/>
 
 먼저, (Weierstrass, Affine) 점들을 (Edwards, Affine)으로 변환시킨다. 이때 변환 과정은 ```batch inversion```을 이용하여 가속화한다. 이후 FPGA를 초기화하여 전송하고, FPGA의 DDR 메모리에 저장된다. 
 
