@@ -329,3 +329,13 @@ Accumulation은 ```MixedAdd```이며 Aggregation은 ```FullAdd```이다.
 각 window 마다 $$ S_T + (S_T + S_{T-1}) + \cdots + (S_T + S_{T-1} + \cdots + S_1) $$ 을 계산해야 하기에, 총 $$ = c \cdot 2^{c-1} \approx c \cdot 2^c $$ 연산이 필요하다. $$ c = 16 $$ 이라면, 총 $$ 2^{20} $$의 덧셈이 필요하다.
 
 논문에선 덧셈의 Latency를 넉넉잡아 $$ 1.5T $$ 로 보고있기에, 총 $$ 1.5T \cdot 2^{20} $$ 정도의 Latency가 발생한다.
+
+Bucket Aggregation의 비중은 $$ \frac{1.5T \cdot 2^{20}}{T \cdot 2^{30}} = \frac{1.5}{2^{10}} = 0.15\% $$ 이나, 논문에서 실제 작동 시간은 15% 정도라 한다. 
+
+# 5. Evaluation - Experimental Result
+
+<img src="../Images/CycloneMSM/11_Table3.png" width = "60%" alt = "fig about Field Arithmetic"/>
+
+하드웨어 구현 후 테스트한 결과이다. 250MHz로 압도적으로 낮지만, 전용 연산기이다 보니 그 성능은 압도적으로 좋다.
+
+<img src="../Images/CycloneMSM/12_Table4.png" width = "60%" alt = "fig about Field Arithmetic"/>
