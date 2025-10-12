@@ -339,3 +339,7 @@ Bucket Aggregation의 비중은 $$ \frac{1.5T \cdot 2^{20}}{T \cdot 2^{30}} = \f
 하드웨어 구현 후 테스트한 결과이다. 250MHz로 압도적으로 낮지만, 전용 연산기이다 보니 그 성능은 압도적으로 좋다.
 
 <img src="../Images/CycloneMSM/12_Table4.png" width = "60%" alt = "fig about Field Arithmetic"/>
+
+이건 연구와는 별개로, ```Batch Affine```을 이용하여 SW 가속을 진행한 라이브러리이다. 성능이 우수하게 나타나지고 있다.
+
+# 끝
