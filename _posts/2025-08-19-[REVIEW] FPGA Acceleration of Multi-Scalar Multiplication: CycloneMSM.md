@@ -299,7 +299,7 @@ $$ \mathbb{F}_q $$ 위에서 377 bit 정수 연산은 ```Montgomery Representati
 곱셈은 ```Montgomery```로, 초반과 후반 연산은 ```Karatsuba```로, 중간 부분은 상수와의 곱만 필요하기에, ```NAF(Non-Adjacent Form)``` 기반 커스텀 곱셈기를 사용하여 최적화함.
 
 ## 4.4. MSM Acceleration
-
+### MSM
 <img src="../Images/CycloneMSM/9_Algorithm3.png" width = "75%" alt = "fig about Field Arithmetic"/>
 
 <img src="../Images/CycloneMSM/10_FPGAimplementation.png" width = "60%" alt = "fig about Field Arithmetic"/>
@@ -316,3 +316,16 @@ $$ \mathbb{F}_q $$ 위에서 377 bit 정수 연산은 ```Montgomery Representati
 
 Reduced Scalar를 NAF로 바꾸어야 한다. 이는 일반 이진수랑은 다르다. 예로, $$ 15_2 = [0, 1, 1, 1, 1] $$ 이지만, $$ NAF(15) = [-1, 0, 0, 0, 1] $$ 이다. 따라서, ```Carry Propagation```이 발생하게 된다. 
 바로 $$ c = 16 $$으로 계산하면, 많은 propagation이 발생하므로 64bit로 먼저 propagation을 전처리 하고 진행한다.
+
+### Bucket Accumulation
+$$ S_k \leftarrow S_k \pm P_i $$ 작업을 수행한다. 
+점은 3개의 채널 (x, y, u)을 통해 DDR에서 SRAM으로 스트리밍 된다.
+
+```Delayed Scheduler```를 사용하기에 conflict가 발생하면 ```FIFO```로 옮겨지게 되며, 다시 SRAM으로 옮겨져 다음 라운드를 진행한다.
+
+### Bucket Aggregation
+$$ \sum_{k=1}^{2^c - 1} k S_k $$ 작업을 수행한다. 
+Accumulation은 ```MixedAdd```이며 Aggregation은 ```FullAdd```이다. 
+각 window 마다 $$ S_T + (S_T + S_{T-1}) + \cdots + (S_T + S_{T-1} + \cdots + S_1) $$ 을 계산해야 하기에, 총 $$ = c \cdot 2^{c-1} \approx c \cdot 2^c $$ 연산이 필요하다. $$ c = 16 $$ 이라면, 총 $$ 2^{20} $$의 덧셈이 필요하다.
+
+논문에선 덧셈의 Latency를 넉넉잡아 $$ 1.5T $$ 로 보고있기에, 총 $$ 1.5T \cdot 2^{20} $$ 정도의 Latency가 발생한다.
