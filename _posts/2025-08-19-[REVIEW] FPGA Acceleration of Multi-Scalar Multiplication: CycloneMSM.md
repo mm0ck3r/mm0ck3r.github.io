@@ -94,7 +94,7 @@ img {
 위의 표를 확인해보면 여러 Scheme(Protocol)에 대해 Prover의 시간에서 MSM이 차지하는 비율이 70-90%를 차지함을 알 수 있다. 따라서 현재의 ZK-SNARK 과정에서 MSM Acceleration은 무조건 필요하다. 본 논문에서는 해당 가속 연구를 FPGA를 통해 진행하였다.
 
 # 2. Background
-## 2.1 Elliptic Curves, Twisted Edwards
+## 2.1. Elliptic Curves, Twisted Edwards
 
 <center> $$ y^{2} = x^{3} + ax + b, \quad \text{with } a, b \in \mathbb{F}_{q} $$ </center>
 위의 Elliptic Curve 식은 ```Weierstrass Equation```이다. 곡선은 non-singular하다. 즉, 연속적이며 미분가능하다. 
@@ -121,7 +121,7 @@ Elliptic Curves에서 Affine 좌표계를 사용하여 점과 점의 덧셈 연�
 
 Twisted Edwards Form은 $$ k $$라는 값이 정의되어 있다. 따라서 $$ k $$를 이용해 Extended Affine에서 $$ u = kxy$$로 둔다. Extended Jacobian Coordinates와 마찬가지로, Extended Projective Coordinates 역시 역원 계산을 피하기 위한 용도이다.
 
-## 2.2 Bucket Algorithm (Pippenger Algorithm)
+## 2.2. Bucket Algorithm (Pippenger Algorithm)
 Bucket Algorithm은 Pippenger Algorithm 이라고도 불리운다. Nicholas Pippenger가 1976년 제안한 알고리즘으로, 대부분의 MSM Acceleration 연구들에서 사용하고 있는 알고리즘이다.
 
 원리는 하나다. 스칼라를 작은 비트로 쪼개는 것이다.
@@ -189,7 +189,7 @@ $$ R = \sum_{j=0}^{B-1} 2^{jc} R^{(j)} $$
 
 # 3. CycloneMSM
 
-## 3.1 Architecture
+## 3.1. Architecture
 
 $$ S_{k} = \sum_{P \in \mathcal{B}_{k}} P $$
 
@@ -205,7 +205,7 @@ $$ S_{k} = \sum_{P \in \mathcal{B}_{k}} P $$
 - MSM Controller: System 초기화, 점 및 스칼라에 대한 pre-processing, pre-computation을 담당하는 ```MSM Init```과정과, 실제로 진행되는 MSM을 Controll하는 ```MSM```으로 나뉜다.
 - Scheduler: 앞서, 위에서 버킷에 들어가 처리되는 점들의 순서가 중요하다 하였다. 이에 대해 성능을 극대화 시키기 위해 연산의 순서를 조절한다.
 
-## 3.2 Scheduler for UR Scalars
+## 3.2. Scheduler for UR Scalars
 
 앞서, 하드웨어 상황에서 실제로 Curve Adder는 한 개 있지만, Pipeline 병렬화를 통해 CurveAdder가 실제로 여러개 있는 효과를 낼 수 있다고 하였다. 또는 실제로 소프트웨어에서는 여러개의 CurveAdder가 구현되기도 한다.
 
@@ -273,7 +273,7 @@ bucket 4에서 ```race condition```이 발생한다.
 본 방식은, 충돌된 점들을 가능한 빠르게 처리하는 방식이다. 예를 들어 위처럼, $$ P_3 $$와 $$ P_4 $$가 충돌할 수 있다.  
 시간 간격이 1 Cycle이 걸리는 시간인 $$ T $$보다 작기에 충돌이 발생한다. 따라서 충돌된 점들을 현재 시각인 $$ t $$에 대하여, $$ t + T + 1 $$ 시각에 다시 처리해주어야 한다. 지연된 점들을 처리하는 Queue의 크기가 작으며, $$ N = 2^{26} $$일때, Queue의 최대길이가 약 10으로, Delayed 방식보다 저장 공간이 작다.
 
-## 3.3 Applications: FPGA, Batch Affine
+## 3.3. Applications: FPGA, Batch Affine
 **FPGA(Hardware)**  
 하나의 프로세서에 입력으로 $$ S_k, P $$가 시간 $$t$$에 들어오면, $$ S_k + P $$가 $$ t + T $$에 출력된다.  
 그렇다면 클럭 사이클마다 한 번씩 점 덧셈을 파이프라인에 넣을 수 있다.
@@ -287,3 +287,17 @@ Affine 좌표계의 점 덧셈은 2-3번의 곱셈과 1번의 덧셈이 필요�
 <center> $$ c^{-1} = z(ab) = zp_2 $$ </center>
 <center> $$ b^{-1} = p_1cz $$ </center>
 <center> $$ a^{-1} = bcz $$ </center>
+
+# 4. FPGA Design
+
+## 4.1. Field Arithmetic
+
+<img src="../Images/CycloneMSM/8_FieldArithmetic.png" width = "80%" alt = "fig about Field Arithmetic"/>
+$$ \mathbb{F}_q $$ 위에서 377 bit 정수 연산은 ```Montgomery Representation```을 이용해 구현하였다. 여기서 $$ R = 2^{384} $$이다. ```Extend-Jacobian```, ```Extended-Projective``` 처럼 inverse를 구할 필요 없는 좌표계를 이용하였다.
+곱셈은 ```Montgomery```로, 초반과 후반 연산은 ```Karatsuba```로, 중간 부분은 상수와의 곱만 필요하기에, ```NAF(Non-Adjacent Form)``` 기반 커스텀 곱셈기를 사용하여 최적화함.
+
+## 4.4. MSM Acceleration
+
+<img src="../Images/CycloneMSM/9_Algorithm3.png" width = "80%" alt = "fig about Field Arithmetic"/>
+
+<img src="../Images/CycloneMSM/10_FPGAimplementation.png" width = "80%" alt = "fig about Field Arithmetic"/>
