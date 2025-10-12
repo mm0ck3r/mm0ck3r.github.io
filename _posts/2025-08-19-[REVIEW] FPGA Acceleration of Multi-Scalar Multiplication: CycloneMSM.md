@@ -282,8 +282,8 @@ bucket 4에서 ```race condition```이 발생한다.
 Affine 좌표계의 점 덧셈은 2-3번의 곱셈과 1번의 덧셈이 필요하다. 이는 비효율적이다. 다만 ```Batch Inversion```과 Scheduling을 진행하고 $$ T $$개의 점들에 대해 덧셈을 진행한다고 할때 $$ T inv $$를 $$ 3T mul + 1 inv $$ 수준까지 최적화시킬 수 있다.
 이는 점 $$ T $$ 개에 대한 덧셈의 총 연산량이 $$ 6T mul + 1 inv $$ 수준으로 줄어들게 된다. 다만, 소프트웨어에서 조건 (3)을 만족하게 하기 위한 preprocessing 과정도 필요하고, 등등으로 인해 여러 라이브러리들은 아직 Projective 계열을 사용한다.
 ```Batch Affine```은 아래와 같다.
-<center> $$ p_1 &= a, \quad p_2 = ab, \quad p_3 = abc $$ </center>
-<center> $$ z &= (abc)^{-1} $$ </center>
-<center> $$ c^{-1} &= z(ab) = zp_2 $$ </center>
-<center> $$ b^{-1} &= p_1cz $$ </center>
-<center> $$ a^{-1} &= bcz $$ </center>
+<center> $$ p_1 = a, \quad p_2 = ab, \quad p_3 = abc $$ </center>
+<center> $$ z = (abc)^{-1} $$ </center>
+<center> $$ c^{-1} = z(ab) = zp_2 $$ </center>
+<center> $$ b^{-1} = p_1cz $$ </center>
+<center> $$ a^{-1} = bcz $$ </center>
