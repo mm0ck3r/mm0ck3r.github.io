@@ -5,15 +5,15 @@ writer: Seongjin Kim
 categories: [Paper Review, ZKP Hardware Acceleration]
 tags: [Zero-Knowledge Proof, Hardware, Acceleration, GPU]
 image:
-  path: ../Images/CycloneMSM/Title.png
+  path: ../Images/cuZK/Title.png
   alt: Paper Review about CycloneMSM
 
 math: true
 toc: true
 toc_sticky: true
 
-date: 2025-09-19
-last_modified_at: 2025-09-31
+date: 2025-10-02
+last_modified_at: 2025-10-15
 ---
 
 <style>
