@@ -71,18 +71,8 @@ img {
 }
 </style>
 
-<!-- <figure>
-  <a href="https://arxiv.org/pdf/2002.08909" class="bookmark source">
-    <div class="bookmark-info">
-      <div class="bookmark-text">
-        <div class="bookmark-title">REALM: Retrieval-Augmented Language Model Pre-Training</div>
-        <div class="bookmark-description">arxiv pdf link for REALM</div>
-      </div>
-    </div>
-  </a>
-</figure> -->
-
-```MSM Hardware Acceleration```에 관해 기본적인 내용들을 학습하기 좋은 것 같아 ```CycloneMSM``` 논문을 리뷰해보도록 하겠다.
+```MSM GPU Acceleration```에 관해 기본적인 내용들을 학습하기 좋은 것 같아 ```cuZK``` 논문을 리뷰해보도록 하겠다. 
+MSM(Multi-Scalar Multiplication)에 대해 자세히 알고싶으면 이전 [포스팅](https://mm0ck3r.github.io/posts/REVIEW-cuZK-Accelerating-Zero-Knowledge-Proof-with-A-Faster-Parallel-Multi-Scalar-Multiplication-Algorithm-on-GPUs/)을 참조하자.
 
 # 1. Introduction
 <center>$$ R = n_{1}P_{1} + n_{2}P_{2} + \cdots + n_{N}P_{N} = \displaystyle\sum_{i=1}^{N} n_{i}P_{i} $$</center>
