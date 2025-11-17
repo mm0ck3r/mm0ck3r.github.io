@@ -1,9 +1,9 @@
 ---
-title: "[Paper Review] FPGA Acceleration of Multi-Scalar Multiplication: CycloneMSM"
-description: "Paper Review about CycloneMSM"
+title: "[Paper Review] cuZK: Accelerating Zero-Knowledge Proof with A Faster Parallel Multi-Scalar Multiplication Algorithm on GPUs"
+description: "Paper Review about cuZK"
 writer: Seongjin Kim
 categories: [Paper Review, ZKP Hardware Acceleration]
-tags: [Zero-Knowledge Proof, Hardware, Acceleration, FPGA]
+tags: [Zero-Knowledge Proof, Hardware, Acceleration, GPU]
 image:
   path: ../Images/CycloneMSM/Title.png
   alt: Paper Review about CycloneMSM
