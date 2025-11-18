@@ -78,4 +78,7 @@ MSM(Multi-Scalar Multiplication)에 대해 자세히 알고싶으면 이전 [포
 ```Groth16```의 ZK-SNARKs에 의해 ZKP 과정은 매우 간결해지게 되었다. 
 다만, Prover가 증명을 생성하는 단계에서는 아직 overhead가 크다는 단점이 존재한다. 
 
-증명자가 증명 $$ -\pi $$를 생성하려면,
+증명자가 증명 $$ \pi $$를 생성하기 위해 아래의 세 단계를 거쳐야 한다. 
+- Large-Scale Matrix-Vector Multiplication (MUL)
+- Number-Theoretic Transform (NTT)
+- Multi-Scalar Multiplication (MSM)
